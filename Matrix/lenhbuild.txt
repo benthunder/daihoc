@@ -1,0 +1,2 @@
+mcs -out:bai2.exe AdjacencyMatrix.cs bai2.cs
+mcs -out:bai1.exe AdjacencyMatrix.cs bai1.cs
