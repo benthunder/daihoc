@@ -92,7 +92,7 @@ namespace Tuan2
                 {
                     if (matrix[currentVertext, i] == 1 && this.listVisited[i] != 1)
                     {
-                        this.listParent[currentVertext] = i;
+                        this.listParent[i] = currentVertext;
                         this.listVisited[i] = 1;
                         this.queueBFS.Add(i);
                         this.listReturn.Add(i.ToString());
@@ -216,7 +216,7 @@ namespace Tuan2
                     baiTap.inKetQua();
 
                     Console.WriteLine("BFS Duong di: ");
-                    baiTap.inKetQua(Int32.Parse(ketthuc), Int32.Parse(batdau));
+                    baiTap.inDuongDi();
                 }
                 else
                 {
@@ -233,7 +233,7 @@ namespace Tuan2
 
 
                     Console.WriteLine("BFS Duong di: ");
-                    baiTap.inKetQua(Int32.Parse(ketthuc), Int32.Parse(batdau));
+                    baiTap.inDuongDi();
                 }
 
             }
