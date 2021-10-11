@@ -15,6 +15,9 @@ namespace Tuan2
 
         public int start = 0, goal = 0;
 
+
+        private int[] listParent;
+
         public BaiTap(string path)
         {
             string pathDir = System.IO.Directory.GetCurrentDirectory();
@@ -30,12 +33,15 @@ namespace Tuan2
         {
             this.vertexNumber = adjacencyMatrix.getVertexNumber();
             this.listVisited = new int[this.vertexNumber];
+            this.listParent = new int[this.vertexNumber];
+
             this.listReturn = new List<string>();
             this.queueBFS = new List<int>();
             // Init value
             for (int i = 0; i < this.vertexNumber; i++)
             {
                 this.listVisited[i] = 0;
+                this.listParent[i] = -1;
             }
         }
 
@@ -60,10 +66,12 @@ namespace Tuan2
                 {
                     this.listVisited[i] = 1;
                     this.listReturn.Add(i.ToString());
+                    this.listParent[i] = vertex;
                     this.DFS(i);
                 }
             }
         }
+
 
         public void BFS(int vertex = 0)
         {
@@ -84,6 +92,7 @@ namespace Tuan2
                 {
                     if (matrix[currentVertext, i] == 1 && this.listVisited[i] != 1)
                     {
+                        this.listParent[currentVertext] = i;
                         this.listVisited[i] = 1;
                         this.queueBFS.Add(i);
                         this.listReturn.Add(i.ToString());
@@ -101,6 +110,31 @@ namespace Tuan2
             Console.WriteLine();
         }
 
+        public void inDuongDi()
+        {
+
+            if (this.listParent[this.goal] == -1)
+            {
+                Console.WriteLine("Khong co duong di");
+            }
+            else
+            {
+                int cur = this.goal;
+                while (cur != this.start)
+                {
+                    Console.Write(cur);
+                    Console.Write(" <- ");
+                    cur = this.listParent[cur];
+                }
+
+                if (cur == this.start)
+                {
+                    Console.Write(cur);
+                }
+
+                Console.WriteLine();
+            }
+        }
         public void inKetQua(int start, int goal)
         {
             this.listReturn.Reverse();
@@ -122,6 +156,8 @@ namespace Tuan2
                 string ketthuc = Console.ReadLine();
 
                 baiTap.initValue();
+                baiTap.start = Int32.Parse(batdau);
+                baiTap.goal = Int32.Parse(ketthuc);
 
                 if (Int32.Parse(batdau) < Int32.Parse(ketthuc))
                 {
@@ -146,7 +182,7 @@ namespace Tuan2
 
                     // }
                     Console.WriteLine("DFS Duong Di: ");
-                    baiTap.inKetQua(Int32.Parse(ketthuc), Int32.Parse(batdau));
+                    baiTap.inDuongDi();
                 }
                 else
                 {
@@ -160,16 +196,8 @@ namespace Tuan2
                     Console.WriteLine("DFS Duyet: ");
                     baiTap.inKetQua();
 
-                    baiTap.initValue();
-                    for (int i = Int32.Parse(ketthuc); i <= Int32.Parse(batdau); i++)
-                    {
-                        if (baiTap.getListVisited()[i] != 1)
-                        {
-                            baiTap.DFS(i);
-                        }
-                    }
                     Console.WriteLine("DFS Duong Di: ");
-                    baiTap.inKetQua(Int32.Parse(ketthuc), Int32.Parse(batdau));
+                    baiTap.inDuongDi();
                 }
 
 
