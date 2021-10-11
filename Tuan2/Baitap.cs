@@ -83,7 +83,6 @@ namespace Tuan2
                 this.queueBFS.Add(vertex);
             }
             this.listVisited[vertex] = 1;
-
             while (queueBFS.Count > 0)
             {
                 int currentVertext = queueBFS[0];
@@ -96,6 +95,10 @@ namespace Tuan2
                         this.listVisited[i] = 1;
                         this.queueBFS.Add(i);
                         this.listReturn.Add(i.ToString());
+                        if (i == this.goal)
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -172,15 +175,6 @@ namespace Tuan2
                     Console.WriteLine("DFS Duyet: ");
                     baiTap.inKetQua();
 
-                    // baiTap.initValue();
-                    // for (int i = Int32.Parse(ketthuc); i >= Int32.Parse(batdau); i--)
-                    // {
-                    //     if (baiTap.getListVisited()[i] != 1)
-                    //     {
-                    //         baiTap.DFS(i);
-                    //     }
-
-                    // }
                     Console.WriteLine("DFS Duong Di: ");
                     baiTap.inDuongDi();
                 }
@@ -207,6 +201,11 @@ namespace Tuan2
                     baiTap.initValue();
                     for (int i = Int32.Parse(batdau); i <= Int32.Parse(ketthuc); i++)
                     {
+                        if (baiTap.getListVisited()[Int32.Parse(ketthuc)] == 1)
+                        {
+                            break;
+                        }
+
                         if (baiTap.getListVisited()[i] != 1)
                         {
                             baiTap.BFS(i);
@@ -223,6 +222,11 @@ namespace Tuan2
                     baiTap.initValue();
                     for (int i = Int32.Parse(batdau); i >= Int32.Parse(ketthuc); i--)
                     {
+                        if (baiTap.getListVisited()[Int32.Parse(ketthuc)] == 1)
+                        {
+                            break;
+                        }
+
                         if (baiTap.getListVisited()[i] != 1)
                         {
                             baiTap.BFS(i);
