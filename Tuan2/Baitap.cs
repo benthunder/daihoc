@@ -115,28 +115,50 @@ namespace Tuan2
 
         public void inDuongDi()
         {
-
+            List<int> listPath = new List<int>();
             if (this.listParent[this.goal] == -1)
             {
                 Console.WriteLine("Khong co duong di");
+                return;
             }
             else
             {
                 int cur = this.goal;
-                while (cur != this.start)
+                while (cur != this.start && cur != -1)
                 {
-                    Console.Write(cur);
-                    Console.Write(" <- ");
+                    listPath.Add(cur);
                     cur = this.listParent[cur];
                 }
 
                 if (cur == this.start)
                 {
-                    Console.Write(cur);
+                    listPath.Add(cur);
                 }
 
                 Console.WriteLine();
             }
+
+            if (listPath.Count < 1)
+            {
+                Console.WriteLine("Khong co duong di");
+                return;
+            }
+
+            if (listPath[listPath.Count - 1] != this.start)
+            {
+                Console.WriteLine("Khong co duong di");
+                return;
+            }
+
+            for (int i = 0; i < listPath.Count; i++)
+            {
+                Console.Write(listPath[i]);
+                if (listPath.Count - 1 != i)
+                {
+                    Console.Write("<-");
+                }
+            }
+            Console.WriteLine();
         }
         public void inKetQua(int start, int goal)
         {
