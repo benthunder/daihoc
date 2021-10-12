@@ -15,7 +15,7 @@ namespace Tuan2
 
         public int start = 0, goal = 0;
 
-
+        public List<int> queueLienThong = new List<int>();
         private int[] listParent;
 
         public BaiTap(string path)
@@ -31,7 +31,7 @@ namespace Tuan2
 
         public void initValue()
         {
-            this.vertexNumber = adjacencyMatrix.getVertexNumber();
+            this.vertexNumber = this.adjacencyMatrix.getVertexNumber();
             this.listVisited = new int[this.vertexNumber];
             this.listParent = new int[this.vertexNumber];
 
@@ -48,6 +48,10 @@ namespace Tuan2
         public int[] getListVisited()
         {
             return this.listVisited;
+        }
+
+        public int getVertexNumber(){
+            return this.adjacencyMatrix.getVertexNumber();
         }
 
 
@@ -101,6 +105,53 @@ namespace Tuan2
                         }
                     }
                 }
+            }
+        }
+
+        public void xuLyLienThong(int vertex){
+            int[,] matrix = this.adjacencyMatrix.getMatrix();
+            if (this.listVisited[vertex] != 1)
+            {
+                this.listReturn.Add(vertex.ToString());
+                this.mangLT.Add(vertex);
+            }
+            this.listVisited[vertex] = 1;
+
+            for (int i = 0; i < this.vertexNumber; i++)
+            {
+                if (matrix[vertex, i] == 1 && this.listVisited[i] != 1)
+                {
+                    this.listVisited[i] = 1;
+                    this.listReturn.Add(i.ToString());
+                    this.listParent[i] = vertex;
+                    this.mangLT.Add(i);
+                    this.xuLyLienThong(i);
+                }
+            }
+        }
+
+        private List<int> mangLT = new List<int>();
+        public IDictionary<int, List<int>> listLT = new Dictionary<int, List<int>>();
+        public void timLienThong(){
+            int soLienThong = 1;
+            for(int i = 0 ; i < this.vertexNumber ; i++){
+                if(this.listVisited[i] == 1)
+                    continue;
+                
+                this.mangLT = new List<int>();
+                this.xuLyLienThong(i);
+                this.listLT.Add(++soLienThong,mangLT);
+            }
+        }
+        public void inLienThong(){
+            Console.WriteLine("So Lien Thong: "+this.listLT.Count);
+            int i = 1;
+            foreach(KeyValuePair<int, List<int>> item in this.listLT){
+                Console.Write("Lien thong {0}: ",i++);
+                foreach(int v in item.Value){
+                    Console.Write("{0} ",v);
+                }
+                Console.WriteLine();
             }
         }
 
@@ -260,6 +311,10 @@ namespace Tuan2
                     baiTap.inDuongDi();
                 }
 
+                baiTap.initValue();
+                Console.WriteLine("Tim Lien Thong: ");
+                baiTap.timLienThong();
+                baiTap.inLienThong();
             }
             catch (Exception e)
             {
