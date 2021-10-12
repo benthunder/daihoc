@@ -134,8 +134,6 @@ namespace Tuan2
                 {
                     listPath.Add(cur);
                 }
-
-                Console.WriteLine();
             }
 
             if (listPath.Count < 1)
