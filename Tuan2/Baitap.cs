@@ -63,7 +63,11 @@ namespace Tuan2
                 this.listReturn.Add(vertex.ToString());
             }
             this.listVisited[vertex] = 1;
-
+            if (vertex == this.goal)
+            {
+                return;
+            }
+            
             for (int i = 0; i < this.vertexNumber; i++)
             {
                 if (matrix[vertex, i] == 1 && this.listVisited[i] != 1)
@@ -160,6 +164,7 @@ namespace Tuan2
             foreach (string vertext in this.listReturn)
             {
                 Console.Write(vertext + " ");
+                if (Int32.Parse(vertext) == this.goal) break;
             }
             Console.WriteLine();
         }
