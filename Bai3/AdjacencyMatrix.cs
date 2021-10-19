@@ -53,32 +53,42 @@ namespace Bai3
             }
         }
 
-        public List<int[]> findMSTByPrim(int startVertext = 0)
+        public int[,] findMSTByPrim(int startVertext = 0)
         {
-            List<int[]> mst = new List<int[]>();
+            int[,] mst = new int[this.vertexNumber - 1, 2];
+            int[,] markedEdge = new int[this.vertexNumber, this.vertexNumber];
             int[] markedVertext = new int[this.vertexNumber];
-
+            int countMst = 0;
+            int[,] matrix = this.getMatrix();
             for (int i = 0; i < this.vertexNumber; i++)
             {
-                markedVertext[i] = 0;
+                this.markedVertext[i] = 0;
+                for (int j = 0; j < length; j++)
+                {
+                    this.markedEdge[i, j] = 0;
+                }
             }
-            int nextVertext = this.getEdgeWithMinWeight(startVertext, markedVertext);
-            int[] tmpEdge = new int[2];
 
-            tmpEdge[0] = startVertext;
-            tmpEdge[1] = nextVertext;
+            List<int> queueVertext = new List<int>();
             markedVertext[startVertext] = 1;
-            markedVertext[nextVertext] = 1;
-            mst.Add(tmpEdge);
-            Console.WriteLine("{0} {1}", tmpEdge[0], tmpEdge[1]);
-
-            nextVertext = this.getEdgeWithMinWeight(0, markedVertext);
-            tmpEdge[0] = startVertext;
-            tmpEdge[1] = nextVertext;
-            markedVertext[startVertext] = 1;
-            markedVertext[nextVertext] = 1;
-            mst.Add(tmpEdge);
-
+            queueVertext.Add(startVertext);
+            int minWeight = -1, minVertext = -1;
+            while (countMst < this.vertexNumber - 1)
+            {
+                minWeight = -1;
+                minVertext = -1;
+                for (int v = 0; v < this.vertexNumber; v++)
+                {
+                    for (int i = 0; i < this.vertexNumber - 1; i++)
+                    {
+                        if (matrix[v, i] > 0 && markedEdge[i, v] != 0 && matrix[v, i] <= minWeight)
+                        {
+                            minWeight = matrix[v, i];
+                            minVertext = i;
+                        }
+                    }
+                }
+            }
             return mst;
         }
 

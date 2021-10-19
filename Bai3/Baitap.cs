@@ -18,10 +18,10 @@ namespace Bai3
 
         public void inKQPrim()
         {
-            List<int[]> mst = this.adjacencyMatrix.findMSTByPrim();
-            foreach (int[] item in mst)
+            int[,] mst = this.adjacencyMatrix.findMSTByPrim();
+            for (int i = 0; i < this.adjacencyMatrix.getVertexNumber() - 1; i++)
             {
-                Console.WriteLine(item[1]);
+                Console.WriteLine("{0} {1}", mst[i, 0], mst[i, 1]);
             }
         }
         static void Main(string[] args)
