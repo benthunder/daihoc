@@ -241,7 +241,7 @@ namespace Tuan2
                 if (Int32.Parse(batdau) < Int32.Parse(ketthuc))
                 {
                     baiTap.initValue();
-                    for (int i = Int32.Parse(batdau); i <= Int32.Parse(ketthuc); i++)
+                    for (int i = Int32.Parse(batdau); i  Int32.Parse(ketthuc); i++)
                     {
                         if (baiTap.getListVisited()[i] != 1)
                         {
