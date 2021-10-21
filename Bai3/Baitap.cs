@@ -28,6 +28,12 @@ namespace Bai3
             }
             Console.WriteLine("Tong: {0}", tong);
         }
+
+        public void inKQKruskal()
+        {
+            this.adjacencyMatrix.getSortMatrix();
+        }
+
         static void Main(string[] args)
         {
             try
@@ -36,6 +42,8 @@ namespace Bai3
                 Console.Write("Nhap bat dau: ");
                 string batdau = Console.ReadLine();
                 baitap.inKQPrim(Int32.Parse(batdau));
+
+                baitap.inKQKruskal();
             }
             catch (Exception e)
             {

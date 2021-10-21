@@ -117,6 +117,71 @@ namespace Bai3
             }
             return mst;
         }
+
+        // public int[,] findMSTByKruskal(int startVertext = 0)
+        // {
+
+        // }
+
+        public int[,] getSortMatrix()
+        {
+            List<dynamic> listEdge = new List<dynamic>();
+            int[,] matrix = this.matrix;
+            int[,] markedEdge = new int[this.vertexNumber, this.vertexNumber];
+
+            for (int i = 0; i < this.vertexNumber; i++)
+            {
+                for (int j = 0; j < this.vertexNumber; j++)
+                {
+                    markedEdge[i, j] = 0;
+                }
+            }
+
+            for (int i = 0; i < this.vertexNumber; i++)
+            {
+                for (int j = 0; j < this.vertexNumber; j++)
+                {
+                    if (markedEdge[i, j] == 0 && markedEdge[j, i] == 0 && i != j && matrix[i, j] != 0)
+                    {
+                        listEdge.Add(new { x = i, y = j, w = matrix[i, j] });
+                        markedEdge[i, j] = 1;
+                        markedEdge[j, i] = 1;
+                    }
+                }
+            }
+
+
+            int[,] listEdgeSorted = new int[listEdge.Count, 3];
+            int minWeight = -1;
+            int[] minEdge = new int[2] { -1, -1 };
+            int[] markedEdgeIndex = new int[listEdge.Count];
+
+            for (int i = 0; i < listEdge.Count; i++)
+            {
+                markedEdgeIndex[i] = 0;
+            }
+
+            for (int i = 0; i < listEdge.Count; i++)
+            {
+                minWeight = -1;
+                for (int j = 0; j < listEdge.Count; j++)
+                {
+                    if ((listEdge[j].w <= minWeight || minWeight == -1) && markedEdgeIndex[j] == 0)
+                    {
+                        minWeight = listEdge[i].w;
+                        minEdge[0] = listEdge[j].x;
+                        minEdge[1] = listEdge[j].y;
+                        minEdge[2] = listEdge[j].w;
+                    }
+                }
+                listEdgeSorted[i, 0] = minEdge[0];
+                listEdgeSorted[i, 1] = minEdge[1];
+                listEdgeSorted[i, 2] = minWeight;
+            }
+
+            Console.WriteLine(listEdgeSorted.Length);
+            return listEdgeSorted;
+        }
     }
 
 }
