@@ -118,12 +118,66 @@ namespace Bai3
             return mst;
         }
 
-        // public int[,] findMSTByKruskal(int startVertext = 0)
-        // {
+        private int findParent(int[] markedParentVertext, int vertex)
+        {
+            while (markedParentVertext[vertex] != vertex)
+            {
+                if (markedParentVertext[vertex] == -1)
+                {
+                    return vertex;
+                }
+                vertex = markedParentVertext[vertex];
+            }
+            return vertex;
+        }
+        private bool isCircle(int[] markedParentVertext, int[] checkEdge)
+        {
+            int i = this.findParent(markedParentVertext, checkEdge[0]);
+            int j = this.findParent(markedParentVertext, checkEdge[1]);
+            return i == j;
+        }
 
-        // }
+        public int[,] findMSTByKruskal(int startVertext = 0)
+        {
+            int[,] mst = new int[this.vertexNumber - 1, 3];
+            int[] markedParentVertext = new int[this.vertexNumber];
+            int countMst = 0;
+            int[,] matrix = this.getMatrix();
 
-        public int[,] getSortMatrix()
+            int[,] listEdgeSorted = this.getSortMatrix();
+
+            for (int i = 0; i < this.vertexNumber; i++)
+            {
+                markedParentVertext[i] = -1;
+            }
+
+
+            int[] currentEdge = new int[2];
+            for (int i = 0; i < listEdgeSorted.GetLength(0); i++)
+            {
+                if (countMst >= this.vertexNumber - 1)
+                {
+                    break;
+                }
+
+                currentEdge[0] = listEdgeSorted[i, 0];
+                currentEdge[1] = listEdgeSorted[i, 1];
+
+                if (!this.isCircle(markedParentVertext, currentEdge) || i == 0)
+                {
+                    mst[countMst, 0] = currentEdge[0];
+                    mst[countMst, 1] = currentEdge[1];
+                    mst[countMst, 2] = matrix[currentEdge[0], currentEdge[1]];
+                    countMst++;
+
+                    markedParentVertext[currentEdge[0]] = currentEdge[1];
+                }
+            }
+
+            return mst;
+        }
+
+        private int[,] getSortMatrix()
         {
             List<dynamic> listEdge = new List<dynamic>();
             int[,] matrix = this.matrix;
@@ -155,7 +209,7 @@ namespace Bai3
             int minWeight = -1;
             int[] minEdge = new int[2] { -1, -1 };
             int[] markedEdgeIndex = new int[listEdge.Count];
-
+            int minEdgeMarked = -1;
             for (int i = 0; i < listEdge.Count; i++)
             {
                 markedEdgeIndex[i] = 0;
@@ -166,20 +220,20 @@ namespace Bai3
                 minWeight = -1;
                 for (int j = 0; j < listEdge.Count; j++)
                 {
-                    if ((listEdge[j].w <= minWeight || minWeight == -1) && markedEdgeIndex[j] == 0)
+                    if ((listEdge[j].w < minWeight || minWeight == -1) && markedEdgeIndex[j] == 0)
                     {
-                        minWeight = listEdge[i].w;
+                        minWeight = listEdge[j].w;
                         minEdge[0] = listEdge[j].x;
                         minEdge[1] = listEdge[j].y;
-                        minEdge[2] = listEdge[j].w;
+                        minEdgeMarked = j;
                     }
                 }
                 listEdgeSorted[i, 0] = minEdge[0];
                 listEdgeSorted[i, 1] = minEdge[1];
                 listEdgeSorted[i, 2] = minWeight;
+                markedEdgeIndex[minEdgeMarked] = 1;
             }
 
-            Console.WriteLine(listEdgeSorted.Length);
             return listEdgeSorted;
         }
     }

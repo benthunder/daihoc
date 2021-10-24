@@ -31,7 +31,15 @@ namespace Bai3
 
         public void inKQKruskal()
         {
-            this.adjacencyMatrix.getSortMatrix();
+            int[,] mst = this.adjacencyMatrix.findMSTByKruskal();
+            int tong = 0;
+            Console.WriteLine("Kruskal", tong);
+            for (int i = 0; i < this.adjacencyMatrix.getVertexNumber() - 1; i++)
+            {
+                Console.WriteLine("{0}-{1}: {2}", mst[i, 0], mst[i, 1], mst[i, 2]);
+                tong += mst[i, 2];
+            }
+            Console.WriteLine("Tong: {0}", tong);
         }
 
         static void Main(string[] args)
