@@ -134,6 +134,7 @@ namespace Bai3
         {
             int i = this.findParent(markedParentVertext, checkEdge[0]);
             int j = this.findParent(markedParentVertext, checkEdge[1]);
+
             return i == j;
         }
 
@@ -170,7 +171,7 @@ namespace Bai3
                     mst[countMst, 2] = matrix[currentEdge[0], currentEdge[1]];
                     countMst++;
 
-                    markedParentVertext[currentEdge[0]] = currentEdge[1];
+                    markedParentVertext[this.findParent(markedParentVertext, currentEdge[0])] = this.findParent(markedParentVertext, currentEdge[1]);
                 }
             }
 
