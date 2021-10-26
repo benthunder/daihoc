@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
+using Project_Algo;
 namespace Project
 {
     class Graph
@@ -30,6 +31,19 @@ namespace Project
                 {
                     this.Martrix[i, Int32.Parse(tokens[j])] = 1;
                 }
+            }
+        }
+
+        public void printResult()
+        {
+            EmptyGraph emptyGraph = new EmptyGraph();
+            if (emptyGraph.isEmptyGraph(this.Martrix, this.VertexNumber))
+            {
+                Console.WriteLine("1. Đồ thị trống : k = {0}", emptyGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("1. Đồ thị trống : Không");
             }
         }
 

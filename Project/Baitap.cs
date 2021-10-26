@@ -44,7 +44,8 @@ namespace Project
         {
             foreach (Graph g in this.ListGraph)
             {
-                g.printInput();
+                g.printResult();
+                Console.WriteLine();
             }
         }
         static void Main(string[] args)
