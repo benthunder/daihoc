@@ -10,9 +10,27 @@ namespace Project
     {
         public int VertexNumber { get; set; }
         public int[,] Martrix { get; set; }
-        public void readInput(List<string> inputString, int vertexNumber)
+        public bool IsUndirected { get; set; }
+
+        private bool isUndirectedGraph()
         {
-            this.VertexNumber = vertexNumber;
+            for (int i = 0; i < this.VertexNumber; i++)
+            {
+                for (int j = 0; j < this.VertexNumber; j++)
+                {
+                    if (this.Martrix[i, j] != this.Martrix[j, i])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public void readInput(List<string> inputString, int VertexNumber)
+        {
+            this.VertexNumber = VertexNumber;
             this.Martrix = new int[this.VertexNumber, this.VertexNumber];
             for (int i = 0; i < this.VertexNumber; i++)
             {
@@ -32,6 +50,8 @@ namespace Project
                     this.Martrix[i, Int32.Parse(tokens[j])] = 1;
                 }
             }
+
+            this.IsUndirected = this.isUndirectedGraph();
         }
 
         public void printResult()
@@ -44,6 +64,36 @@ namespace Project
             else
             {
                 Console.WriteLine("1. Đồ thị trống : Không");
+            }
+
+            CycleGraph cycleGraph = new CycleGraph();
+            if (cycleGraph.isCycleGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("2. Đồ thị vòng : k = {0}", cycleGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("2. Đồ thị vòng : Không");
+            }
+
+            ButterflyGraph butterflyGraph = new ButterflyGraph();
+            if (butterflyGraph.isButterflyGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("3. Đồ thị con bướm : có");
+            }
+            else
+            {
+                Console.WriteLine("3. Đồ thị con bướm : Không");
+            }
+
+            MothGraph mothGraph = new MothGraph();
+            if (mothGraph.isMothGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("4. Đồ thị con ngài : có");
+            }
+            else
+            {
+                Console.WriteLine("4. Đồ thị con ngài : Không");
             }
         }
 
