@@ -95,6 +95,46 @@ namespace Project
             {
                 Console.WriteLine("4. Đồ thị con ngài : Không");
             }
+
+            StartGraph startGraph = new StartGraph();
+            if (startGraph.isStartGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("5. Đồ thị hình sao : k = {0}", startGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("5. Đồ thị hình sao : Không");
+            }
+
+            WheelGraph wheelGraph = new WheelGraph();
+            if (wheelGraph.isWheelGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("6. Đồ thị bánh xe : k = {0}", wheelGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("6. Đồ thị bánh xe : Không");
+            }
+
+            BarbellGraph barbellGraph = new BarbellGraph();
+            if (barbellGraph.isBarbellGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("7. Đồ thị Barbell : k = {0}", barbellGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("7. Đồ thị Barbell : Không");
+            }
+
+            FriendshipGraph friendshipGraph = new FriendshipGraph();
+            if (friendshipGraph.isFriendshipGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                Console.WriteLine("8. Đồ thị tình bạn : k = {0}", friendshipGraph.k);
+            }
+            else
+            {
+                Console.WriteLine("8. Đồ thị tình bạn : Không");
+            }
         }
 
         public void printInput()

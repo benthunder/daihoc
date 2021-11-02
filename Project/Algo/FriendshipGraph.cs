@@ -1,42 +1,45 @@
+
 namespace Project_Algo
 {
-    class ButterflyGraph
+    class FriendshipGraph
     {
-        public bool isButterflyGraph(int[,] matrix, int vertexNumber, bool isUndirected)
+        public int k;
+        public bool isFriendshipGraph(int[,] matrix, int vertexNumber, bool isUndirected)
         {
             if (!isUndirected)
                 return false;
 
-            if (vertexNumber != 5)
+            if (vertexNumber < 5)
                 return false;
+
+            int[] vertexDegrees = this.getAllVertexDegrees(matrix, vertexNumber);
 
             int centerVertex = -1;
-            int[] vertexDegrees = this.getAllVertexDegrees(matrix, vertexNumber);
             for (int i = 0; i < vertexDegrees.Length; i++)
             {
-                if (vertexDegrees[i] == 4)
+                if (vertexDegrees[i] == vertexNumber - 1)
                 {
                     centerVertex = i;
+                    break;
                 }
             }
-
             if (centerVertex == -1)
-            {
                 return false;
-            }
+
 
             for (int i = 0; i < vertexDegrees.Length; i++)
             {
-                if (i == centerVertex) continue;
+                if (i == centerVertex)
+                    continue;
 
-                if (vertexDegrees[i] != 2 || matrix[i, centerVertex] != 1)
+                if (vertexDegrees[i] != 2 || matrix[i, centerVertex] != 1 || matrix[centerVertex, i] != 1)
                 {
                     return false;
                 }
             }
 
+            this.k = (vertexNumber - vertexNumber % 2) / 2;
             return true;
-
         }
 
         public int[] getAllVertexDegrees(int[,] matrix, int vertexNumber)
@@ -62,5 +65,27 @@ namespace Project_Algo
 
             return vertexDegrees;
         }
+
+        private int getAllEdges(int[,] matrix, int vertexNumber, bool isUndirected)
+        {
+            int edgeNumber = 0;
+            for (int i = 0; i < vertexNumber; i++)
+            {
+                for (int j = 0; j < vertexNumber; j++)
+                {
+                    if (matrix[i, j] != 0)
+                    {
+                        edgeNumber++;
+                    }
+                }
+            }
+
+            if (isUndirected)
+            {
+                edgeNumber = edgeNumber / 2;
+            }
+            return edgeNumber;
+        }
+
     }
 }

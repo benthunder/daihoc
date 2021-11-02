@@ -1,42 +1,49 @@
+using System;
+using System.IO;
+
 namespace Project_Algo
 {
-    class ButterflyGraph
+    class StartGraph
     {
-        public bool isButterflyGraph(int[,] matrix, int vertexNumber, bool isUndirected)
+        public int k;
+        public bool isStartGraph(int[,] matrix, int vertexNumber, bool isUndirected)
         {
             if (!isUndirected)
                 return false;
 
-            if (vertexNumber != 5)
-                return false;
+
+            int[] vertexDegrees = this.getAllVertexDegrees(matrix, vertexNumber);
+            if (vertexNumber == 1 && vertexDegrees[0] == 1)
+                return true;
+
+            if (vertexNumber == 2 && vertexDegrees[0] == 1 && vertexDegrees[1] == 1 && matrix[0, 1] == 1 && matrix[1, 0] == 1)
+                return true;
 
             int centerVertex = -1;
-            int[] vertexDegrees = this.getAllVertexDegrees(matrix, vertexNumber);
             for (int i = 0; i < vertexDegrees.Length; i++)
             {
-                if (vertexDegrees[i] == 4)
+                if (vertexDegrees[i] == vertexNumber - 1)
                 {
                     centerVertex = i;
+                    break;
                 }
             }
-
             if (centerVertex == -1)
-            {
                 return false;
-            }
+
 
             for (int i = 0; i < vertexDegrees.Length; i++)
             {
-                if (i == centerVertex) continue;
+                if (i == centerVertex)
+                    continue;
 
-                if (vertexDegrees[i] != 2 || matrix[i, centerVertex] != 1)
+                if (vertexDegrees[i] != 1 || matrix[i, centerVertex] != 1 || matrix[centerVertex, i] != 1)
                 {
                     return false;
                 }
             }
-
+            this.k = vertexNumber;
             return true;
-
         }
 
         public int[] getAllVertexDegrees(int[,] matrix, int vertexNumber)
