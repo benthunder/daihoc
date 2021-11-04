@@ -16,7 +16,7 @@ namespace Project_Algo
             if (!isUndirected)
                 return false;
 
-            if (vertexNumber % 2 != 0)
+            if (vertexNumber % 2 != 0 || vertexNumber < 6)
                 return false;
 
             this.matrix = matrix;

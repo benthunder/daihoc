@@ -13,14 +13,8 @@ namespace Project_Algo
 
 
             int[] vertexDegrees = this.getAllVertexDegrees(matrix, vertexNumber);
-            if (vertexNumber == 1 && vertexDegrees[0] == 1){
+            if (vertexNumber < 3)
                 return false;
-            }
-
-            if (vertexNumber == 2 && vertexDegrees[0] == 1 && vertexDegrees[1] == 1 && matrix[0, 1] == 1 && matrix[1, 0] == 1){
-                this.k = 2;
-                return true;
-            }
 
             int centerVertex = -1;
             for (int i = 0; i < vertexDegrees.Length; i++)
