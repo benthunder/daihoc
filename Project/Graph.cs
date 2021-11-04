@@ -135,6 +135,18 @@ namespace Project
             {
                 Console.WriteLine("8. Đồ thị tình bạn : Không");
             }
+
+            PartiteGraph partiteGraph = new PartiteGraph();
+            if (partiteGraph.isPartiteGraph(this.Martrix, this.VertexNumber, this.IsUndirected))
+            {
+                List<string> kGraph = partiteGraph.listK;
+                Console.Write("9. Đồ thị k-phân (k>1): k = {0} {1}", kGraph.Count, string.Join(",", kGraph));
+            }
+            else
+            {
+                Console.Write("9. Đồ thị k-phân (k>1): Không");
+            }
+            Console.WriteLine();
         }
 
         public void printInput()
