@@ -2,4 +2,4 @@ tasks:
   - init: |
       echo 'TODO: build project'
     command: |
-      sudo apt install mono-complete
+      sudo apt-get -y mono-complete
