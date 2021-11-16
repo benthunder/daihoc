@@ -13,6 +13,7 @@ namespace Tuan4_Algo
         public int start;
 
         public int[] VWeight, VParent;
+        public bool[] VChecked;
 
         public List<int> vertextQueue;
 
@@ -30,66 +31,58 @@ namespace Tuan4_Algo
         {
             this.VWeight = new int[this.vertextNumber];
             this.VParent = new int[this.vertextNumber];
-            this.vertextQueue = new List<int>();
+            this.VChecked = new bool[this.vertextNumber];
 
             for (int i = 0; i < this.vertextNumber; i++)
             {
-                this.VWeight[i] = 0;
+                this.VWeight[i] = int.MaxValue;
                 this.VParent[i] = -1;
-                this.vertextQueue.Add(i);
+                this.VChecked[i] = false;
             }
         }
 
-
-        public void runAlgo()
+        int minDistance()
         {
-            this.VWeight[this.start] = 0;
-            int currentVertext = this.start;
-            this.vertextQueue.RemoveAt(this.vertextQueue.IndexOf(this.start));
-
-            foreach (int i in this.vertextQueue)
+            // Initialize min value 
+            int min = int.MaxValue, min_index = -1;
+            for (int v = 0; v < this.vertextNumber; v++)
             {
-                nextVertext = this.getMinVerticleChild(currentVertext);
+                if (this.VChecked[v] == false && this.VWeight[v] <= min)
+                {
+                    min = this.VWeight[v];
+                    min_index = v;
+                }
+            }
+            return min_index;
+        }
+
+        void printPaths()
+        {
+            Console.Write("Vertex this.VWeightance from Source {0}\n", this.start);
+            for (int i = 0; i < this.vertextNumber; i++)
+            {
+                Console.Write(i + " \t\t " + this.VWeight[i] + "\n");
             }
         }
         /**
         *   v -> 2 | => return [2]
         */
-        public int getMinVerticleChild(int verticle)
+        public void runAlgo()
         {
-            int minVertex = -1;
-            int minVertexWeight = -1;
-            for (int i = 0; i < this.vertextNumber; i++)
+            this.VWeight[this.start] = 0;
+            for (int count = 0; count < this.vertextNumber - 1; count++)
             {
-                if ((this.matrix[verticle, i] != 0 && (minVertexWeight == -1 || minVertexWeight < this.matrix[verticle, i])))
+                int minDistIndx = this.minDistance();
+                this.VChecked[minDistIndx] = true;
+                for (int indx = 0; indx < this.vertextNumber; indx++)
                 {
-                    minVertexWeight = this.matrix[verticle, i];
-                    minVertex = i;
-                }
-
-            }
-
-            return minVertex;
-        }
-
-
-        /**
-        *   1 -> v | => return [2]
-        */
-        public int getMinVerticleParent(int verticle)
-        {
-            int minVertex = -1;
-            int minVertexWeight = -1;
-            for (int i = 0; i < this.vertextNumber; i++)
-            {
-                if ((this.matrix[i, verticle] != 0 && (minVertexWeight == -1 || minVertexWeight < this.matrix[i, verticle])))
-                {
-                    minVertexWeight = this.matrix[i, verticle];
-                    minVertex = i;
+                    if (!this.VChecked[indx] && this.matrix[minDistIndx, indx] != 0 && this.VWeight[minDistIndx] != int.MaxValue && this.VWeight[minDistIndx] + this.matrix[minDistIndx, indx] < this.VWeight[indx])
+                    {
+                        this.VWeight[indx] = this.VWeight[minDistIndx] + this.matrix[minDistIndx, indx];
+                    }
                 }
             }
-
-            return minVertex;
+            this.printPaths();
         }
     }
 }

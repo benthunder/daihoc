@@ -9,7 +9,7 @@ namespace Tuan4
     {
         private AdjacencyMatrix adjacencyMatrix;
 
-        public BaiTap(string path, int start = 5)
+        public BaiTap(string path, int start = 0)
         {
             string pathDir = System.IO.Directory.GetCurrentDirectory();
             path = pathDir + "/file_input/" + path;
