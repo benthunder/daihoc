@@ -2,13 +2,12 @@ using System;
 using System.IO;
 
 
-namespace Tuan4
+namespace Tuan5
 {
     class AdjacencyMatrix
     {
         private int[,] matrix;
         private int vertexNumber;
-        private int edgeNumber;
 
         public void readInput(string filename)
         {
@@ -40,20 +39,28 @@ namespace Tuan4
             return this.matrix;
         }
 
-        public void printMatrix()
+        public int[] getAllVertexDegrees(int[,] matrix, int vertexNumber)
         {
-            Console.WriteLine(this.vertexNumber);
-            for (int i = 0; i < this.vertexNumber; i++)
+            int[] vertexDegrees = new int[vertexNumber];
+            for (int i = 0; i < vertexNumber; i++)
             {
-                for (int j = 0; j < this.vertexNumber; j++)
+                int degree = 0;
+                for (int j = 0; j < vertexNumber; j++)
                 {
-                    Console.Write(this.matrix[i, j]);
-                    Console.Write(" ");
-                }
-                Console.WriteLine();
-            }
-        }
+                    if (matrix[i, j] != 0)
+                    {
+                        degree += matrix[i, j];
 
-        
+                        if (i == j)
+                        {
+                            degree++;
+                        }
+                    }
+                    vertexDegrees[i] = degree;
+                }
+            }
+
+            return vertexDegrees;
+        }
     }
 }
