@@ -7,6 +7,7 @@ namespace Tuan5
     {
         private AdjacencyMatrix adjacencyMatrix;
         private Euler euler;
+        private Hamilton hamilton;
         public Baitap(string path)
         {
             string pathDir = System.IO.Directory.GetCurrentDirectory();
@@ -16,6 +17,8 @@ namespace Tuan5
             this.adjacencyMatrix.readInput(path);
 
             this.euler = new Euler();
+            this.hamilton = new Hamilton(this.adjacencyMatrix);
+
         }
 
         public void inKQEuler()
@@ -24,12 +27,25 @@ namespace Tuan5
             Console.WriteLine(eulerType);
         }
 
+        public void inKQHamilton()
+        {
+            if (!hamilton.isHamilton())
+            {
+                Console.WriteLine("Do thi khong Hamilton");
+            }
+            else
+            {
+                Console.WriteLine("Do thi Hamilton");
+            }
+        }
+
         static void Main(string[] args)
         {
             try
             {
                 Baitap baitap = new Baitap("input.txt");
                 baitap.inKQEuler();
+                baitap.inKQHamilton();
             }
             catch (Exception e)
             {
