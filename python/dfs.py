@@ -30,7 +30,6 @@ class Graph:
         listRun = list(self.ajInput.keys())
         listRun.remove(self.start)
         listRun.insert(0,self.start)
-        print(listRun)
         for vertext in listRun:
             if(vertext not in self.listVisit):
                 self.dfsNeibour(vertext)
