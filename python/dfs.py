@@ -1,7 +1,8 @@
+import collections
 class Graph:
     def __init__(self , input , start , end):
         self.listVisit = []
-        self.ajInput = input
+        self.ajInput = collections.OrderedDict(sorted(input.items()))
         self.listVertexResult = []
         self.listPathVertexResult = []
         self.start = start
@@ -66,9 +67,9 @@ graph = {
     'B' : ['A', 'C', 'D'],
     'C' : ['A', 'B', 'D'],
     'D' : ['B', 'C', 'E', 'F', 'G'],
-    'E' : ['D', 'G'],
     'F' : ['D', 'G'],
+    'E' : ['D', 'G'],
     'G' : ['D', 'E', 'F']
 }
-g = Graph(graph,'A','G')
+g = Graph(graph,'F','C')
 g.printResult()
