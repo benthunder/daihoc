@@ -63,13 +63,23 @@ class Graph:
             print(self.listPathVertexResult)
 
 graph = {
-    'A' : ['B','C'],
-    'B' : ['A', 'C', 'D'],
-    'C' : ['A', 'B', 'D'],
-    'D' : ['B', 'C', 'E', 'F', 'G'],
-    'F' : ['D', 'G'],
-    'E' : ['D', 'G'],
-    'G' : ['D', 'E', 'F']
+    'S' : ['H','F'],
+    'F' : ['S', 'P'],
+    'H' : ['S', 'K'],
+    'P' : ['F', 'Q'],
+    'K' : ['C', 'H'],
+    'Q' : ['P', 'R'],
+    'C' : ['A', 'K'],
+    'R' : ['Q', 'T'],
+    'A' : ['B', 'C'],
+    'T' : ['R', 'G'],
+    'B' : ['A', 'D'],
+    'D' : ['B', 'E', 'M'],
+    'E' : ['D', 'N'],
+    'N' : ['M', 'E'],
+    'M' : ['D', 'N', 'G'],
+    'G' : ['M', 'T']
 }
-g = Graph(graph,'F','C')
+
+g = Graph(graph,'S','G')
 g.printResult()
