@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from ast import Global
 from math import inf as infinity
 from random import choice
 import platform
@@ -17,9 +18,10 @@ License: GNU GENERAL PUBLIC LICENSE (GPL)
 HUMAN = -1
 COMP = +1
 board = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
 ]
 game_type = 0
 
@@ -70,7 +72,6 @@ def wins_bk(state, player):
 def wins(type, board, player):
     global game_type
     # Check rows wins
-
     def checkRow():
         for i in range(game_type):
             isChange = False
@@ -108,22 +109,19 @@ def wins(type, board, player):
         return True
 
     if(checkCol() is True):
-        print(1)
         return True
     if(checkRow() is True):
-        print(2)
         return True
     if(checkCross() is True):
-        print(3)
         return True
     if(checkRevertCross() is True):
-        print(4)
         return True
 
     return False
 
 
 def game_over(state):
+    global game_type
     """
     This function test if the human or computer wins
     :param state: the state of the current board
@@ -155,6 +153,7 @@ def valid_move(x, y):
     :param y: Y coordinate
     :return: True if the board[x][y] is empty
     """
+    global board
     if [x, y] in empty_cells(board):
         return True
     else:
@@ -243,6 +242,7 @@ def render(state, c_choice, h_choice):
 
 
 def ai_turn(c_choice, h_choice):
+    global game_type , board
     """
     It calls the minimax function if the depth < 9,
     else it choices a random coordinate.
@@ -250,7 +250,8 @@ def ai_turn(c_choice, h_choice):
     :param h_choice: human's choice X or O
     :return:
     """
-    depth = len(empty_cells(board))
+    depth = game_type*game_type
+
     if depth == 0 or game_over(board):
         return
 
@@ -258,9 +259,9 @@ def ai_turn(c_choice, h_choice):
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
 
-    if depth == game_type*game_type:
-        x = choice([0, 1, 2])
-        y = choice([0, 1, 2])
+    if depth == game_type * game_type :
+        x = choice(range(game_type))
+        y = choice(range(game_type))
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
@@ -272,9 +273,11 @@ def ai_turn(c_choice, h_choice):
 def generateMoves():
     global game_type
     moves = {}
+    t = 1
     for i in range(0, game_type):
         for j in range(0, game_type):
-            moves[i+1] = [i, j]
+            moves[t] = [i, j]
+            t = t + 1
 
     return moves
 
@@ -319,10 +322,12 @@ def main():
     Main function that calls all functions
     """
     clean()
+
+    
     h_choice = ''  # X or O
     c_choice = ''  # X or O
     first = ''  # if human is the first
-    global game_type
+    global game_type , board
     while int(game_type) < 3:
         try:
             game_type = input('Select board game type[3 -> 10]: ').upper()
