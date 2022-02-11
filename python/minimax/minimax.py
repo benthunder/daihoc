@@ -21,6 +21,7 @@ board = [
     [0, 0, 0],
     [0, 0, 0],
 ]
+game_type = 0
 
 
 def evaluate(state):
@@ -29,9 +30,9 @@ def evaluate(state):
     :param state: the state of the current board
     :return: +1 if the computer wins; -1 if the human wins; 0 draw
     """
-    if wins(state, COMP):
+    if wins(game_type, state, COMP):
         score = +1
-    elif wins(state, HUMAN):
+    elif wins(game_type, state, HUMAN):
         score = -1
     else:
         score = 0
@@ -39,7 +40,7 @@ def evaluate(state):
     return score
 
 
-def wins(state, player):
+def wins_bk(state, player):
     """
     This function tests if a specific player wins. Possibilities:
     * Three rows    [X X X] or [O O O]
@@ -60,11 +61,66 @@ def wins(state, player):
         [state[2][0], state[1][1], state[0][2]],
     ]
 
-    print([player, player, player])
     if [player, player, player] in win_state:
         return True
     else:
         return False
+
+
+def wins(type, board, player):
+    global game_type
+    # Check rows wins
+
+    def checkRow():
+        for i in range(game_type):
+            isChange = False
+            for j in range(game_type - 1):
+                if(board[i][j] != board[i][j+1] or board[i][j] != player):
+                    isChange = True
+                    continue
+
+            if isChange is False:
+                return True
+
+        return False
+
+    def checkCol():
+        for i in range(game_type):
+            isChange = False
+            for j in range(game_type - 1):
+                if(board[j][i] != board[j+1][i] or board[j][i] != player):
+                    isChange = True
+                    continue
+
+            if isChange is False:
+                return True
+
+    def checkCross():
+        for i in range(game_type - 1):
+            if(board[i][i] != board[i+1][i+1] or board[i][i] != player or board[i+1][i+1] != player):
+                return False
+        return True
+
+    def checkRevertCross():
+        for i in range(game_type - 1):
+            if(board[i][game_type - 1 - i] != board[i+1][game_type - 2 - i] or board[i][game_type - 1 - i] != player):
+                return False
+        return True
+
+    if(checkCol() is True):
+        print(1)
+        return True
+    if(checkRow() is True):
+        print(2)
+        return True
+    if(checkCross() is True):
+        print(3)
+        return True
+    if(checkRevertCross() is True):
+        print(4)
+        return True
+
+    return False
 
 
 def game_over(state):
@@ -73,7 +129,7 @@ def game_over(state):
     :param state: the state of the current board
     :return: True if the human or computer wins
     """
-    return wins(state, HUMAN) or wins(state, COMP)
+    return wins(game_type, state, HUMAN) or wins(game_type, state, COMP)
 
 
 def empty_cells(state):
@@ -202,7 +258,7 @@ def ai_turn(c_choice, h_choice):
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
 
-    if depth == 9:
+    if depth == game_type*game_type:
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
@@ -213,7 +269,18 @@ def ai_turn(c_choice, h_choice):
     time.sleep(1)
 
 
+def generateMoves():
+    global game_type
+    moves = {}
+    for i in range(0, game_type):
+        for j in range(0, game_type):
+            moves[i+1] = [i, j]
+
+    return moves
+
+
 def human_turn(c_choice, h_choice):
+    global game_type
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
@@ -226,17 +293,12 @@ def human_turn(c_choice, h_choice):
 
     # Dictionary of valid moves
     move = -1
-    moves = {
-        1: [0, 0], 2: [0, 1], 3: [0, 2],
-        4: [1, 0], 5: [1, 1], 6: [1, 2],
-        7: [2, 0], 8: [2, 1], 9: [2, 2],
-    }
-
+    moves = generateMoves()
     clean()
     print(f'Human turn [{h_choice}]')
     render(board, c_choice, h_choice)
 
-    while move < 1 or move > 9:
+    while move < 1 or move > game_type*game_type:
         try:
             move = int(input('Use numpad (1..9): '))
             coord = moves[move]
@@ -260,6 +322,18 @@ def main():
     h_choice = ''  # X or O
     c_choice = ''  # X or O
     first = ''  # if human is the first
+    global game_type
+    while int(game_type) < 3:
+        try:
+            game_type = input('Select board game type[3 -> 10]: ').upper()
+        except (EOFError, KeyboardInterrupt):
+            print('Bye')
+            exit()
+        except (KeyError, ValueError):
+            print('Bad choice')
+
+    game_type = int(game_type)
+    board = [[0 for x in range(game_type)] for y in range(game_type)]
 
     # Human chooses X or O to play
     while h_choice != 'O' and h_choice != 'X':
@@ -299,12 +373,12 @@ def main():
         ai_turn(c_choice, h_choice)
 
     # Game over message
-    if wins(board, HUMAN):
+    if wins(game_type, board, HUMAN):
         clean()
         print(f'Human turn [{h_choice}]')
         render(board, c_choice, h_choice)
         print('YOU WIN!')
-    elif wins(board, COMP):
+    elif wins(game_type, board, COMP):
         clean()
         print(f'Computer turn [{c_choice}]')
         render(board, c_choice, h_choice)
